@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إيموشا شوبينج | Emosha Shopping</title>
+    <style>
+        :root {
+            --primary-color: #131921;
+            --accent-color: #febd69;
+            --secondary-accent: #e47911;
+            --bg-color: #f3f3f3;
+            --text-color: #0f1111;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header Layout */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .search-bar {
+            display: flex;
+            flex-grow: 1;
+            max-width: 700px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .search-bar button {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px 0 0 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, #232f3e, #37475a);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        /* Product Grid */
+        .container {
+            max-width: 1300px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-right: 4px solid var(--secondary-accent);
+            padding-right: 10px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary-accent);
+            margin-bottom: 15px;
+        }
+
+        .btn-affiliate {
+            background-color: var(--accent-color);
+            color: #111;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .btn-direct {
+            background-color: #ffa41c;
+            color: #111;
+            text-align: center;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <a href="#" class="logo">Emosha Shopping</a>
+        <div class="search-bar">
+            <input type="text" placeholder="ابحث عن أفضل المنتجات والعروض...">
+            <button>بحث</button>
+        </div>
+        <div class="nav-links">
+            <a href="#">الأقسام</a>
+            <a href="#">العروض</a>
+            <a href="#">حسابي</a>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <h1>أفضل منتجات الأفلييت والبيع المباشر في مكان واحد</h1>
+        <p>تصفح التقييمات الشاملة واحصل على أفضل الأسعار العالمية</p>
+    </section>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <h2 class="section-title">أحدث المنتجات والعروض</h2>
+        
+        <div class="product-grid">
+            
+            <!-- منتج أفلييت -->
+            <div class="product-card">
+                <div>
+                    <img src="https://via.placeholder.com/200" alt="منتج">
+                    <h3 class="product-title">ساعة ذكية مقاومة للماء مع شاشة AMOLED</h3>
+                    <div class="product-price">1,200 ج.م</div>
+                </div>
+                <a href="YOUR_AFFILIATE_LINK" target="_blank" class="btn-affiliate">الشراء من المتجر الشريك (أمازون)</a>
+            </div>
+
+            <!-- منتج مباشر خاص بك -->
+            <div class="product-card">
+                <div>
+                    <img src="https://via.placeholder.com/200" alt="منتج خاص">
+                    <h3 class="product-title">منتج خاص حصري من إيموشا ماركت</h3>
+                    <div class="product-price">850 ج.م</div>
+                </div>
+                <button class="btn-direct">إضافة إلى السلة للشراء المباشر</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 جميع الحقوق محفوظة لـ Emosha Shopping | <a href="#" style="color:#bbb;">سياسة الخصوصية</a></p>
+    </footer>
+
+</body>
+</html>
