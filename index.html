@@ -82,6 +82,9 @@
         .user-profile-card { text-align: right; }
         .plan-box { background: #f8fafc; border: 2px dashed #8b5cf6; padding: 12px; border-radius: 8px; margin: 12px 0; text-align: center; }
 
+        .cart-list { max-height: 180px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px; margin: 10px 0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 6px; border-bottom: 1px dashed #e2e8f0; font-size: 13px; }
+
         footer { background-color: #0f172a; color: #94a3b8; padding: 40px 20px 20px 20px; margin-top: 60px; }
         .footer-content { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
         .footer-col h3 { color: white; font-size: 16px; margin-bottom: 12px; }
@@ -107,7 +110,7 @@
             <button>بحث</button>
         </div>
         <div class="nav-actions">
-            <button class="cart-btn-head" onclick="toggleAuthModal()">سلة التسوق 🛒 (<span id="cartCount">0</span>)</button>
+            <button class="cart-btn-head" onclick="openCartModal()">سلة التسوق 🛒 (<span id="cartCount">0</span>)</button>
             <button class="nav-btn-user" id="userBtn" onclick="toggleAuthModal()">
                 <span id="userBtnText">تسجيل الدخول</span> 👤
             </button>
@@ -122,15 +125,16 @@
     <div class="main-container">
         <h2 class="section-title">جميع المنتجات والعروض</h2>
         <div class="products-grid" id="mainProductGrid">
-            <!-- تحميل المنتجات -->
+            <!-- المنتجات -->
         </div>
     </div>
 
-    <!-- Auth / Profile Modal -->
+    <!-- Auth / Profile / Cart Modal -->
     <div id="authModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="toggleAuthModal()">&times;</span>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
             
+            <!-- 1. نموذج الدخول والتسجيل -->
             <div id="authForms">
                 <h3 id="modalTitle" style="margin-bottom:15px; color:#0f172a; text-align:center;">تسجيل الدخول</h3>
                 
@@ -152,8 +156,8 @@
                     <div class="form-group">
                         <label>نوع الحساب</label>
                         <select id="regUserType">
-                            <option value="buyer">مشتري فقط</option>
-                            <option value="seller">بائع / صاحب مشروع (اشتراك ونشر منتجات)</option>
+                            <option value="buyer">مشتري فقط 🛒</option>
+                            <option value="seller">بائع / صاحب مشروع (اشتراك ونشر منتجات) 🏪</option>
                         </select>
                     </div>
                 </div>
@@ -176,27 +180,34 @@
                 <div class="auth-toggle" id="authToggle" onclick="switchAuthMode()">ليس لديك حساب؟ أنشئ حساباً جديداً</div>
             </div>
 
-            <!-- Profile & Vendor Dashboard -->
+            <!-- 2. لوحة حساب المستخدم (بائع / مشتري) -->
             <div id="userInfo" style="display:none;" class="user-profile-card">
                 <div style="text-align:center; margin-bottom:10px;">
                     <h3 id="profileName" style="color:#0f172a;"></h3>
                     <p id="profileEmail" style="font-size:12px; color:#64748b;"></p>
-                    <p id="profileType" style="font-size:12px; font-weight:bold; color:#8b5cf6; margin-top:2px;"></p>
+                    <p id="profileType" style="font-size:13px; font-weight:bold; color:#8b5cf6; margin-top:2px;"></p>
                 </div>
 
-                <!-- خيارات الاشتراكات ونشر المنتجات -->
+                <!-- واجهة البائعين -->
                 <div id="sellerSection" style="display:none; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
                     <div class="plan-box">
-                        <h4 style="color:#8b5cf6; font-size:14px; margin-bottom:4px;">اشتراك باقة البائعين 🏪</h4>
-                        <p style="font-size:12px; color:#475569;">اشتراك شهري ينتهي بالتجديد لعرض جميع منتجاتك للعملاء مباشرة.</p>
-                        <button class="btn-action btn-direct-action" style="margin-top:8px;" onclick="alert('لتفعيل الاشتراك الشهري للبائعين، يرجى التواصل مع الإدارة عبر الواتساب: 01010202865')">تفعيل الاشتراك المباشر 💳</button>
+                        <h4 style="color:#8b5cf6; font-size:14px; margin-bottom:4px;">اشتراك باقة البائعين الشهري 🏪</h4>
+                        <p style="font-size:12px; color:#475569;">احصل على شارة بائع معتمد وانشر منتجاتك بدون حدود.</p>
+                        <button class="btn-action btn-direct-action" style="margin-top:8px;" onclick="window.open('https://wa.me/201010202865?text=أرغب%20في%20تفعيل%20اشتراك%20البائعين%20الشهري', '_blank')">تفعيل الاشتراك المباشر 💳</button>
                     </div>
 
                     <h4 style="color:#0f172a; font-size:14px; margin-bottom:8px;">إضافة منتج جديد لمتجرك 🛍️</h4>
-                    <input type="text" id="sellerPTitle" placeholder="عنوان المنتح" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+                    <input type="text" id="sellerPTitle" placeholder="عنوان المنتج" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
                     <input type="text" id="sellerPPrice" placeholder="السعر (ج.م)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
                     <input type="text" id="sellerPImg" placeholder="رابط صورة المنتج (URL)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">نشر سعلتك فوراً 🚀</button>
+                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">نشر سلعتك فوراً 🚀</button>
+                </div>
+
+                <!-- واجهة سلة التسوق داخل الملف -->
+                <div id="buyerCartView" style="display:none; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
+                    <h4 style="color:#0f172a; font-size:14px; margin-bottom:6px;">محتويات سلة التسوق 🛒</h4>
+                    <div class="cart-list" id="cartModalList"></div>
+                    <button class="btn-action btn-direct-action" onclick="checkoutCart()">إتمام الطلب عبر واتساب 💬</button>
                 </div>
 
                 <button class="btn-action" style="background:#ef4444; color:white; margin-top:15px;" onclick="logoutUser()">تسجيل الخروج</button>
@@ -247,11 +258,15 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
             } else {
-                alert('لتثبيت التطبيق على هاتف الأندرويد: اضغط على القائمة (⋮) ثم اختر "الإضافة إلى الشاشة الرئيسية"');
+                alert('لتثبيت التطبيق: اضغط خيارات المتصفح (⋮) ثم اختر "إضافة إلى الشاشة الرئيسية"');
             }
         }
 
         let isSignUpMode = false;
+
+        function closeModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
 
         function checkUserLogin() {
             const currentUserEmail = localStorage.getItem('emosha_current_user');
@@ -260,15 +275,27 @@
                 const userData = JSON.parse(localStorage.getItem('emosha_userData_' + currentUserEmail) || '{}');
                 const displayName = userData.firstName ? (userData.firstName + ' ' + userData.lastName) : currentUserEmail;
                 userBtn.innerHTML = `<span>${displayName}</span> 👤`;
+                updateCartCount(currentUserEmail);
             } else {
                 userBtn.innerHTML = `<span>تسجيل الدخول</span> 👤`;
+                document.getElementById('cartCount').innerText = '0';
             }
+        }
+
+        function openCartModal() {
+            const currentUserEmail = localStorage.getItem('emosha_current_user');
+            if(!currentUserEmail) {
+                alert('برجاء تسجيل الدخول أولاً للوصول لسلة التسوق');
+                toggleAuthModal();
+                return;
+            }
+            toggleAuthModal();
         }
 
         function toggleAuthModal() {
             const modal = document.getElementById('authModal');
             const currentUserEmail = localStorage.getItem('emosha_current_user');
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+            modal.style.display = 'flex';
 
             if (currentUserEmail) {
                 const userData = JSON.parse(localStorage.getItem('emosha_userData_' + currentUserEmail) || '{}');
@@ -277,12 +304,15 @@
                 
                 document.getElementById('profileName').innerText = (userData.firstName || '') + ' ' + (userData.lastName || '');
                 document.getElementById('profileEmail').innerText = currentUserEmail;
-                document.getElementById('profileType').innerText = userData.userType === 'seller' ? 'حساب بائع / صاحب مشروع 🏪' : 'حساب مشتري 🛒';
+                document.getElementById('profileType').innerText = userData.userType === 'seller' ? 'حساب بائع معتمد 🏪' : 'حساب مشتري 🛒';
 
                 if(userData.userType === 'seller') {
                     document.getElementById('sellerSection').style.display = 'block';
+                    document.getElementById('buyerCartView').style.display = 'none';
                 } else {
                     document.getElementById('sellerSection').style.display = 'none';
+                    document.getElementById('buyerCartView').style.display = 'block';
+                    renderCartItems(currentUserEmail);
                 }
             } else {
                 document.getElementById('authForms').style.display = 'block';
@@ -321,19 +351,77 @@
                 let allUsers = JSON.parse(localStorage.getItem('emosha_all_users') || '[]');
                 if(!allUsers.includes(email)) { allUsers.push(email); localStorage.setItem('emosha_all_users', JSON.stringify(allUsers)); }
 
-                alert('تم تسجيل حسابك بنجاح! يرجى إدخال البريد وكلمة المرور الآن لتسجيل الدخول.');
+                alert('تم إنشاء حسابك بنجاح! أدخل البريد وكلمة المرور لتسجيل الدخول.');
                 switchAuthMode();
             } else {
                 const storedData = JSON.parse(localStorage.getItem('emosha_userData_' + email) || 'null');
                 if (storedData && storedData.pass === pass) {
                     localStorage.setItem('emosha_current_user', email);
                     alert('تم تسجيل الدخول بنجاح!');
-                    toggleAuthModal();
+                    closeModal();
                     checkUserLogin();
                 } else {
                     alert('البريد الإلكتروني أو كلمة المرور غير صحيحة!');
                 }
             }
+        }
+
+        function addToCart(pTitle, pPrice) {
+            const currentUser = localStorage.getItem('emosha_current_user');
+            if(!currentUser) {
+                alert('برجاء تسجيل الدخول أولاً لإضافة المنتجات لسلتك!');
+                toggleAuthModal();
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + currentUser) || '[]');
+            cart.push({ title: pTitle, price: pPrice });
+            localStorage.setItem('emosha_cart_' + currentUser, JSON.stringify(cart));
+            alert('تمت إضافة المنتج إلى سلتك بنجاح!');
+            updateCartCount(currentUser);
+        }
+
+        function updateCartCount(email) {
+            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + email) || '[]');
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function renderCartItems(email) {
+            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + email) || '[]');
+            const container = document.getElementById('cartModalList');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color:#aaa; text-align:center;">سلة التسوق فارغة حالياً.</p>';
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.title}</span>
+                        <b>${item.price} ج.م</b>
+                        <button onclick="removeFromCart(${index})" style="background:#ef4444; color:white; border:none; padding:2px 6px; border-radius:4px; cursor:pointer;">حذف</button>
+                    </div>
+                `;
+            });
+        }
+
+        function removeFromCart(index) {
+            const currentUser = localStorage.getItem('emosha_current_user');
+            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + currentUser) || '[]');
+            cart.splice(index, 1);
+            localStorage.setItem('emosha_cart_' + currentUser, JSON.stringify(cart));
+            renderCartItems(currentUser);
+            updateCartCount(currentUser);
+        }
+
+        function checkoutCart() {
+            const currentUser = localStorage.getItem('emosha_current_user');
+            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + currentUser) || '[]');
+            if(cart.length === 0) { alert('السلة فارغة!'); return; }
+            let text = "أرغب في شراء عناصر السلة التالية:\n" + cart.map(i => `- ${i.title} (${i.price} ج.م)`).join("\n");
+            window.open("https://wa.me/201010202865?text=" + encodeURIComponent(text), "_blank");
         }
 
         function addSellerProduct() {
@@ -354,14 +442,14 @@
             document.getElementById('sellerPTitle').value = '';
             document.getElementById('sellerPPrice').value = '';
             document.getElementById('sellerPImg').value = '';
-            toggleAuthModal();
+            closeModal();
             renderMainProducts();
         }
 
         function logoutUser() {
             localStorage.removeItem('emosha_current_user');
             alert('تم تسجيل الخروج بنجاح');
-            toggleAuthModal();
+            closeModal();
             checkUserLogin();
         }
 
@@ -371,7 +459,7 @@
             grid.innerHTML = '';
 
             if (products.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. يمكنك إضافة المنتجات من لوحة الإدارة أو عبر حساب بائع!</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. استخدم لوحة الإدارة أو حساب بائع لإضافة منتجاتك الأولى!</div>';
                 return;
             }
 
@@ -394,7 +482,7 @@
                             <img src="${imgUrl}" alt="${p.title}" class="product-img">
                             <h3 class="product-title">${p.title}</h3>
                             <div class="product-price">${p.price} ج.م</div>
-                            <a href="https://wa.me/201010202865?text=أرغب%20في%20شراء%20منتج%20البائع:%20${encodeURIComponent(p.title)}" target="_blank" class="btn-action btn-direct-action">طلب الشراء المباشر 💬</a>
+                            <button onclick="addToCart('${p.title}', '${p.price}')" class="btn-action btn-add-cart">إضافة للسلة 🛒</button>
                         </div>
                     `;
                 } else {
@@ -404,7 +492,7 @@
                             <img src="${imgUrl}" alt="${p.title}" class="product-img">
                             <h3 class="product-title">${p.title}</h3>
                             <div class="product-price">${p.price} ج.م</div>
-                            <a href="https://wa.me/201010202865?text=أرغب%20في%20طلب%20${encodeURIComponent(p.title)}" target="_blank" class="btn-action btn-direct-action">طلب مباشر 🛒</a>
+                            <button onclick="addToCart('${p.title}', '${p.price}')" class="btn-action btn-add-cart">إضافة للسلة 🛒</button>
                         </div>
                     `;
                 }
