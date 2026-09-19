@@ -7,16 +7,16 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
         body { background: #0f172a; color: white; padding: 20px; direction: rtl; }
-        .login-box, .admin-panel { max-width: 700px; margin: 30px auto; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        h2 { margin-bottom: 15px; color: #f59e0b; }
+        .login-box, .admin-panel { max-width: 750px; margin: 30px auto; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        h2 { margin-bottom: 15px; color: #f59e0b; font-size: 18px; }
         input, select, button { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; }
         button { background: #f59e0b; color: #0f172a; font-weight: bold; border: none; cursor: pointer; }
-        button:hover { background: #d97706; }
         .hidden { display: none; }
         .user-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
         .user-table th, .user-table td { border: 1px solid #334155; padding: 8px; text-align: right; }
         .user-table th { background: #0f172a; color: #f59e0b; }
         .product-item { background: #334155; padding: 10px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-approve { background: #10b981; width: auto; padding: 6px 12px; font-size: 12px; color: white; margin-left: 5px; }
         .btn-delete { background: #ef4444; width: auto; padding: 6px 12px; font-size: 12px; color: white; }
     </style>
 </head>
@@ -29,6 +29,11 @@
     </div>
 
     <div id="adminPanel" class="admin-panel hidden">
+        <h2>منتجات البائعين المنتظرة للموافقة والاعتماد ⏳</h2>
+        <div id="pendingProductList"></div>
+
+        <hr style="border-color:#334155; margin: 25px 0;">
+
         <h2>سجل العملاء والمستخدمين المسجلين 👥</h2>
         <table class="user-table">
             <thead>
@@ -36,42 +41,30 @@
                     <th>الاسم</th>
                     <th>البريد الإلكتروني</th>
                     <th>الهاتف</th>
-                    <th>التاريخ</th>
+                    <th>النوع</th>
                 </tr>
             </thead>
-            <tbody id="userTableBody">
-                <!-- بيانات المستخدمين -->
-            </tbody>
+            <tbody id="userTableBody"></tbody>
         </table>
 
         <hr style="border-color:#334155; margin: 25px 0;">
 
-        <h2>إضافة منتج جديد للمتجر 📦</h2>
-        <label>عنوان المنتج:</label>
-        <input type="text" id="pTitle" placeholder="مثال: ساعة ذكية مضادة للماء">
-
-        <label>سعر المنتج (ج.م):</label>
-        <input type="text" id="pPrice" placeholder="مثال: 1200">
-
-        <label>رابط صورة المنتج (URL):</label>
-        <input type="text" id="pImg" placeholder="ضع رابط الصورة هنا">
-
-        <label>نوع المنتج:</label>
+        <h2>إضافة منتج جديد مباشر للمتجر 📦</h2>
+        <input type="text" id="pTitle" placeholder="عنوان المنتج">
+        <input type="text" id="pPrice" placeholder="السعر (ج.م)">
+        <input type="text" id="pImg" placeholder="رابط صورة المنتج">
         <select id="pType" onchange="toggleType()">
             <option value="affiliate">منتج أفلييت (رابط متجر شريك)</option>
-            <option value="direct">منتج خاص (طلب مباشر من المتجر)</option>
+            <option value="direct">منتج خاص بالموقع</option>
         </select>
-
         <div id="affiliateField">
-            <label>رابط الشراء بالأفلييت (أمازون / نون...):</label>
-            <input type="text" id="pAffLink" placeholder="https://...">
+            <input type="text" id="pAffLink" placeholder="رابط الأفلييت">
         </div>
-
         <button onclick="addProduct()">نشر المنتج فوراً 🚀</button>
 
         <hr style="border-color:#334155; margin: 25px 0;">
 
-        <h2>المنتجات المنشورة حالياً</h2>
+        <h2>جميع المنتجات المنشورة</h2>
         <div id="productList"></div>
 
         <button onclick="logout()" style="background:#475569; margin-top:20px;">تسجيل الخروج</button>
@@ -81,21 +74,57 @@
         const SECRET_PASS = "123010111  55Ee";
 
         function login() {
-            const val = document.getElementById('passInput').value;
-            if (val === SECRET_PASS) {
+            if (document.getElementById('passInput').value === SECRET_PASS) {
                 document.getElementById('loginArea').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
+                loadPendingProducts();
                 loadUsers();
                 loadProducts();
-            } else {
-                alert('رمز الدخول غير صحيح!');
-            }
+            } else { alert('رمز الدخول غير صحيح!'); }
         }
 
         function logout() {
             document.getElementById('adminPanel').classList.add('hidden');
             document.getElementById('loginArea').classList.remove('hidden');
-            document.getElementById('passInput').value = '';
+        }
+
+        function loadPendingProducts() {
+            let products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
+            const pendingList = products.filter(p => p.status === 'pending');
+            const container = document.getElementById('pendingProductList');
+            container.innerHTML = '';
+
+            if (pendingList.length === 0) {
+                container.innerHTML = '<p style="color:#aaa; font-size:13px;">لا توجد طلبات منتجات معلقة حالياً.</p>';
+                return;
+            }
+
+            pendingList.forEach(p => {
+                container.innerHTML += `
+                    <div class="product-item">
+                        <div>
+                            <b>${p.title}</b> - السعر: ${p.price} ج.م <br>
+                            <small style="color:#cbd5e1;">البائع: ${p.sellerEmail}</small>
+                        </div>
+                        <div>
+                            <button class="btn-approve" onclick="approveProduct(${p.id})">موافقة ونشر ✅</button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id})">رفض ❌</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function approveProduct(id) {
+            let products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
+            products = products.map(p => {
+                if(p.id === id) { p.status = 'approved'; }
+                return p;
+            });
+            localStorage.setItem('emosha_products', JSON.stringify(products));
+            alert('تمت الموافقة ونشر المنتج في المتجر الرئيسي!');
+            loadPendingProducts();
+            loadProducts();
         }
 
         function loadUsers() {
@@ -103,19 +132,14 @@
             const tbody = document.getElementById('userTableBody');
             tbody.innerHTML = '';
 
-            if(allUsers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#aaa;">لا يوجد مستخدمون مسجلون حتى الآن.</td></tr>';
-                return;
-            }
-
             allUsers.forEach(email => {
                 const uData = JSON.parse(localStorage.getItem('emosha_userData_' + email) || '{}');
                 tbody.innerHTML += `
                     <tr>
                         <td>${(uData.firstName || '') + ' ' + (uData.lastName || '')}</td>
                         <td>${email}</td>
-                        <td>${uData.phone || 'غير محدد'}</td>
-                        <td>${uData.regDate || '-'}</td>
+                        <td>${uData.phone || '-'}</td>
+                        <td>${uData.userType === 'seller' ? 'بائع' : 'مشتري'}</td>
                     </tr>
                 `;
             });
@@ -135,17 +159,12 @@
 
             if(!title || !price) { alert('برجاء كتابة عنوان وسعر المنتج'); return; }
 
-            const newProduct = { id: Date.now(), title, price, img, type, affLink };
-
+            const newProduct = { id: Date.now(), title, price, img, type, affLink, status: 'approved' };
             let products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
             products.push(newProduct);
             localStorage.setItem('emosha_products', JSON.stringify(products));
 
-            alert('تم نشر المنتج بنجاح!');
-            document.getElementById('pTitle').value = '';
-            document.getElementById('pPrice').value = '';
-            document.getElementById('pImg').value = '';
-            document.getElementById('pAffLink').value = '';
+            alert('تم نشر المنتج مباشرة!');
             loadProducts();
         }
 
@@ -154,15 +173,12 @@
             const container = document.getElementById('productList');
             container.innerHTML = '';
 
-            if(products.length === 0) {
-                container.innerHTML = '<p style="color:#aaa;">لا توجد منتجات منشورة حتى الآن.</p>';
-                return;
-            }
+            const approvedProducts = products.filter(p => p.status === 'approved' || p.type === 'affiliate' || p.type === 'direct' || !p.status);
 
-            products.forEach(p => {
+            approvedProducts.forEach(p => {
                 container.innerHTML += `
                     <div class="product-item">
-                        <span>${p.title} - (${p.type === 'affiliate' ? 'أفلييت' : 'خاص'}) - ${p.price} ج.م</span>
+                        <span>${p.title} - ${p.price} ج.م</span>
                         <button class="btn-delete" onclick="deleteProduct(${p.id})">حذف</button>
                     </div>
                 `;
@@ -173,6 +189,7 @@
             let products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
             products = products.filter(p => p.id !== id);
             localStorage.setItem('emosha_products', JSON.stringify(products));
+            loadPendingProducts();
             loadProducts();
         }
     </script>
