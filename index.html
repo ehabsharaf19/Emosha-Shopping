@@ -17,12 +17,13 @@
             --text-dark: #1e293b;
             --badge-affiliate: #3b82f6;
             --badge-direct: #10b981;
+            --badge-seller: #8b5cf6;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: #f1f5f9; color: var(--text-dark); direction: rtl; }
 
-        .top-bar { background: linear-gradient(90deg, #1e1b4b, #312e81); color: #f8fafc; text-align: center; padding: 8px; font-size: 13px; }
+        .top-bar { background: linear-gradient(90deg, #1e1b4b, #312e81); color: #f8fafc; text-align: center; padding: 8px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; padding: 6px 15px; }
 
         header { background-color: var(--header-bg); color: white; padding: 15px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .logo-text { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
@@ -38,7 +39,7 @@
 
         .nav-btn-user { background: var(--accent-gold); color: #0f172a; font-weight: 700; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; }
         .cart-btn-head { background: #3b82f6; color: white; font-weight: 700; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 13px; }
-        .user-avatar-mini { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+        .install-btn { background: #10b981; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
         .hero-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 35px 20px; text-align: center; border-bottom: 3px solid var(--accent-gold); }
         .hero-banner h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
@@ -54,6 +55,7 @@
         .badge { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; color: white; }
         .badge-affiliate { background-color: var(--badge-affiliate); }
         .badge-direct { background-color: var(--badge-direct); }
+        .badge-seller { background-color: var(--badge-seller); }
 
         .product-img { width: 100%; height: 190px; object-fit: contain; margin: 15px 0; border-radius: 6px; }
         .product-title { font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-dark); height: 42px; overflow: hidden; margin-bottom: 8px; }
@@ -64,7 +66,6 @@
         .btn-direct-action { background-color: #25d366; color: white; }
         .btn-add-cart { background-color: #0f172a; color: white; }
 
-        /* Auth & User Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; overflow-y: auto; padding: 20px 0; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 480px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
         .close-btn { position: absolute; left: 15px; top: 15px; font-size: 20px; cursor: pointer; font-weight: bold; color: #64748b; }
@@ -74,15 +75,12 @@
 
         .form-group { margin-bottom: 12px; text-align: right; }
         .form-group label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; color: #334155; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; }
-        .form-group input:focus { border-color: var(--accent-gold); }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; }
 
         .auth-toggle { font-size: 13px; color: #2563eb; cursor: pointer; text-align: center; margin-top: 12px; font-weight: 600; }
 
         .user-profile-card { text-align: center; padding: 10px 0; }
         .user-profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-gold); margin-bottom: 10px; }
-        .cart-list { max-height: 200px; overflow-y: auto; text-align: right; margin: 15px 0; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1; font-size: 13px; }
 
         footer { background-color: #0f172a; color: #94a3b8; padding: 40px 20px 20px 20px; margin-top: 60px; }
         .footer-content { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
@@ -90,7 +88,6 @@
         .footer-col ul { list-style: none; }
         .footer-col ul li { margin-bottom: 8px; }
         .footer-col a { color: #94a3b8; text-decoration: none; font-size: 13px; }
-        .footer-col a:hover { color: var(--accent-gold); }
 
         .footer-bottom { text-align: center; font-size: 12px; padding-top: 20px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .admin-link { color: #475569; text-decoration: none; font-size: 11px; }
@@ -98,7 +95,10 @@
 </head>
 <body>
 
-    <div class="top-bar">✨ مرحباً بكم في إيموشا شوبينج | وجهتك الأولى للمنتجات العالمية والعروض الحصرية</div>
+    <div class="top-bar">
+        <span>✨ مرحباً بكم في إيموشا شوبينج | سوق التسوق الشامل</span>
+        <button id="pwaInstallBtn" class="install-btn" onclick="installApp()">تنزيل التطبيق 📲</button>
+    </div>
 
     <header>
         <a href="index.html" class="logo-text">Emosha Shopping</a>
@@ -116,17 +116,17 @@
 
     <section class="hero-banner">
         <h1>متجر إيموشا الشامل للمنتجات والعروض</h1>
-        <p>تصفح أفضل منتجات الأفلييت العالمية إلى جانب منتجاتنا الحصرية المباشرة</p>
+        <p>تصفح أفضل منتجات الأفلييت العالمية إلى جانب منتجاتنا وبائعينا المباشرين</p>
     </section>
 
     <div class="main-container">
         <h2 class="section-title">جميع المنتجات والعروض</h2>
         <div class="products-grid" id="mainProductGrid">
-            <!-- المنتجات -->
+            <!-- تحميل المنتجات -->
         </div>
     </div>
 
-    <!-- Auth / User Cart Modal -->
+    <!-- Auth / Profile Modal -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="toggleAuthModal()">&times;</span>
@@ -150,8 +150,11 @@
                         <input type="tel" id="regPhone" placeholder="01010202865">
                     </div>
                     <div class="form-group">
-                        <label>رابط الصورة الشخصية (اختياري)</label>
-                        <input type="text" id="regAvatar" placeholder="https://...">
+                        <label>نوع الحساب</label>
+                        <select id="regUserType">
+                            <option value="buyer">مشتري فقط</option>
+                            <option value="seller">بائع / صاحب مشروع (نشر منتجات)</option>
+                        </select>
                     </div>
                 </div>
 
@@ -173,20 +176,23 @@
                 <div class="auth-toggle" id="authToggle" onclick="switchAuthMode()">ليس لديك حساب؟ أنشئ حساباً جديداً</div>
             </div>
 
-            <!-- Profile & Cart Dashboard -->
+            <!-- Profile & Vendor Dashboard -->
             <div id="userInfo" style="display:none;" class="user-profile-card">
-                <img id="profileAvatar" src="" class="user-profile-img" alt="صورة المستخدم">
+                <img id="profileAvatar" src="https://via.placeholder.com/80" class="user-profile-img" alt="صورة المستخدم">
                 <h3 id="profileName" style="color:#0f172a; margin-bottom:2px;"></h3>
                 <p id="profileEmail" style="font-size:12px; color:#64748b;"></p>
-                <p id="profilePhone" style="font-size:12px; color:#64748b; margin-bottom:12px;"></p>
+                <p id="profileType" style="font-size:12px; font-weight:bold; color:#8b5cf6; margin-bottom:12px;"></p>
                 
-                <h4 style="text-align:right; font-size:14px; color:#0f172a;">سلة التسوق الخاصة بك 🛒</h4>
-                <div class="cart-list" id="cartItemsList">
-                    <!-- عناصر السلة -->
+                <!-- قسم إضافة منتج للبائعين -->
+                <div id="sellerSection" style="display:none; border-top:1px solid #e2e8f0; padding-top:10px; margin-top:10px; text-align:right;">
+                    <h4 style="color:#0f172a; font-size:14px; margin-bottom:8px;">إضافة منتجك للبيع في المتجر 🛍️</h4>
+                    <input type="text" id="sellerPTitle" placeholder="اسم المنتج" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+                    <input type="text" id="sellerPPrice" placeholder="السعر (ج.م)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+                    <input type="text" id="sellerPImg" placeholder="رابط صورة المنتج" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">نشر منتجي في المتجر 🚀</button>
                 </div>
 
-                <button class="btn-action btn-direct-action" onclick="checkoutCart()">إتمام الطلب عبر واتساب 💬</button>
-                <button class="btn-action" style="background:#ef4444; color:white; margin-top:8px;" onclick="logoutUser()">تسجيل الخروج</button>
+                <button class="btn-action" style="background:#ef4444; color:white; margin-top:15px;" onclick="logoutUser()">تسجيل الخروج</button>
             </div>
         </div>
     </div>
@@ -218,6 +224,27 @@
     </footer>
 
     <script>
+        // PWA Installation Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed', err));
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwaInstallBtn').style.display = 'inline-block';
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+            } else {
+                alert('لتثبيت التطبيق على الموبايل: اضغط على خيارات المتصفح (⋮) ثم اختر "الإضافة إلى الشاشة الرئيسية"');
+            }
+        }
+
         let isSignUpMode = false;
 
         function checkUserLogin() {
@@ -226,12 +253,9 @@
             if (currentUserEmail) {
                 const userData = JSON.parse(localStorage.getItem('emosha_userData_' + currentUserEmail) || '{}');
                 const displayName = userData.firstName ? (userData.firstName + ' ' + userData.lastName) : currentUserEmail;
-                const avatar = userData.avatar || 'https://via.placeholder.com/50';
-                userBtn.innerHTML = `<img src="${avatar}" class="user-avatar-mini"> <span>${displayName}</span>`;
-                updateCartUI(currentUserEmail);
+                userBtn.innerHTML = `<span>${displayName}</span> 👤`;
             } else {
                 userBtn.innerHTML = `<span>تسجيل الدخول</span> 👤`;
-                document.getElementById('cartCount').innerText = '0';
             }
         }
 
@@ -247,9 +271,13 @@
                 
                 document.getElementById('profileName').innerText = (userData.firstName || '') + ' ' + (userData.lastName || '');
                 document.getElementById('profileEmail').innerText = currentUserEmail;
-                document.getElementById('profilePhone').innerText = '📞 ' + (userData.phone || 'غير محدد');
-                document.getElementById('profileAvatar').src = userData.avatar || 'https://via.placeholder.com/80';
-                updateCartUI(currentUserEmail);
+                document.getElementById('profileType').innerText = userData.userType === 'seller' ? 'حساب بائع معتمد 🏪' : 'حساب مشتري 🛒';
+
+                if(userData.userType === 'seller') {
+                    document.getElementById('sellerSection').style.display = 'block';
+                } else {
+                    document.getElementById('sellerSection').style.display = 'none';
+                }
             } else {
                 document.getElementById('authForms').style.display = 'block';
                 document.getElementById('userInfo').style.display = 'none';
@@ -275,21 +303,20 @@
                 const firstName = document.getElementById('regFirstName').value.trim();
                 const lastName = document.getElementById('regLastName').value.trim();
                 const phone = document.getElementById('regPhone').value.trim();
-                const avatar = document.getElementById('regAvatar').value.trim() || 'https://via.placeholder.com/80';
+                const userType = document.getElementById('regUserType').value;
                 const confirmPass = document.getElementById('userConfirmPass').value;
 
                 if (!firstName || !lastName) { alert('برجاء ادخال الاسم الأول واللقب'); return; }
                 if (pass !== confirmPass) { alert('كلمتا المرور غير متطابقتين!'); return; }
 
-                const userData = { firstName, lastName, phone, avatar, pass, regDate: new Date().toLocaleDateString('ar-EG') };
+                const userData = { firstName, lastName, phone, userType, pass, regDate: new Date().toLocaleDateString('ar-EG') };
                 localStorage.setItem('emosha_userData_' + email, JSON.stringify(userData));
                 
-                // حفظ البريد في سجل المستخدمين الكلي للإدارة
                 let allUsers = JSON.parse(localStorage.getItem('emosha_all_users') || '[]');
                 if(!allUsers.includes(email)) { allUsers.push(email); localStorage.setItem('emosha_all_users', JSON.stringify(allUsers)); }
 
-                alert('تم إنشاء الحساب بنجاح! قم الآن بتسجيل الدخول بحسابك الجديد.');
-                switchAuthMode(); // العودة لوضع تسجيل الدخول بدون فتح الحساب تلقائياً
+                alert('تم إنشاء الحساب بنجاح! سجل دخولك الآن.');
+                switchAuthMode();
             } else {
                 const storedData = JSON.parse(localStorage.getItem('emosha_userData_' + email) || 'null');
                 if (storedData && storedData.pass === pass) {
@@ -303,38 +330,26 @@
             }
         }
 
-        function addToCart(pTitle, pPrice) {
+        function addSellerProduct() {
             const currentUser = localStorage.getItem('emosha_current_user');
-            if(!currentUser) { alert('برجاء تسجيل الدخول أولاً لإضافة المنتجات للسلة!'); toggleAuthModal(); return; }
+            const title = document.getElementById('sellerPTitle').value;
+            const price = document.getElementById('sellerPPrice').value;
+            const img = document.getElementById('sellerPImg').value || 'https://via.placeholder.com/200';
 
-            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + currentUser) || '[]');
-            cart.push({ title: pTitle, price: pPrice });
-            localStorage.setItem('emosha_cart_' + currentUser, JSON.stringify(cart));
-            alert('تمت إضافة المنتج إلى سلة التسوق الخاصة بك!');
-            updateCartUI(currentUser);
-        }
+            if(!title || !price) { alert('برجاء ادخال اسم المنتج والسعر'); return; }
 
-        function updateCartUI(email) {
-            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + email) || '[]');
-            document.getElementById('cartCount').innerText = cart.length;
-            const container = document.getElementById('cartItemsList');
-            if(!container) return;
-            container.innerHTML = '';
-            if(cart.length === 0) {
-                container.innerHTML = '<p style="color:#aaa; text-align:center;">سلتك فارغة حالياً.</p>';
-                return;
-            }
-            cart.forEach((item, index) => {
-                container.innerHTML += `<div class="cart-item"><span>${item.title}</span> <b>${item.price} ج.م</b></div>`;
-            });
-        }
+            const newProduct = { id: Date.now(), title, price, img, type: 'seller', sellerEmail: currentUser };
 
-        function checkoutCart() {
-            const currentUser = localStorage.getItem('emosha_current_user');
-            let cart = JSON.parse(localStorage.getItem('emosha_cart_' + currentUser) || '[]');
-            if(cart.length === 0) { alert('سلتك فارغة!'); return; }
-            let text = "أرغب في شراء طلبية السلة:\n" + cart.map(i => `- ${i.title} (${i.price} ج.م)`).join("\n");
-            window.open("https://wa.me/201010202865?text=" + encodeURIComponent(text), "_blank");
+            let products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
+            products.push(newProduct);
+            localStorage.setItem('emosha_products', JSON.stringify(products));
+
+            alert('تم نشر منتجك بنجاح في المتجر!');
+            document.getElementById('sellerPTitle').value = '';
+            document.getElementById('sellerPPrice').value = '';
+            document.getElementById('sellerPImg').value = '';
+            toggleAuthModal();
+            renderMainProducts();
         }
 
         function logoutUser() {
@@ -350,7 +365,7 @@
             grid.innerHTML = '';
 
             if (products.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. يمكنك إضافة المنتجات من لوحة الإدارة!</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. يمكنك إضافة المنتجات من لوحة الإدارة أو عبر حساب بائع!</div>';
                 return;
             }
 
@@ -366,6 +381,16 @@
                             <a href="${p.affLink}" target="_blank" class="btn-action btn-affiliate-action">الشراء من المتجر الشريك 🔗</a>
                         </div>
                     `;
+                } else if(p.type === 'seller') {
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <span class="badge badge-seller">منتج بائع</span>
+                            <img src="${imgUrl}" alt="${p.title}" class="product-img">
+                            <h3 class="product-title">${p.title}</h3>
+                            <div class="product-price">${p.price} ج.م</div>
+                            <a href="https://wa.me/201010202865?text=أرغب%20في%20شراء%20منتج%20البائع:%20${encodeURIComponent(p.title)}" target="_blank" class="btn-action btn-direct-action">طلب الشراء المباشر 💬</a>
+                        </div>
+                    `;
                 } else {
                     grid.innerHTML += `
                         <div class="product-card">
@@ -373,8 +398,7 @@
                             <img src="${imgUrl}" alt="${p.title}" class="product-img">
                             <h3 class="product-title">${p.title}</h3>
                             <div class="product-price">${p.price} ج.م</div>
-                            <button onclick="addToCart('${p.title}', '${p.price}')" class="btn-action btn-add-cart">إضافة للسلة 🛒</button>
-                            <a href="https://wa.me/201010202865?text=أرغب%20في%20طلب%20${encodeURIComponent(p.title)}" target="_blank" class="btn-action btn-direct-action">طلب مباشر عبر واتساب 💬</a>
+                            <a href="https://wa.me/201010202865?text=أرغب%20في%20طلب%20${encodeURIComponent(p.title)}" target="_blank" class="btn-action btn-direct-action">طلب مباشر 🛒</a>
                         </div>
                     `;
                 }
