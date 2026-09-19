@@ -16,7 +16,6 @@
             --accent-gold-hover: #d97706;
             --card-bg: #ffffff;
             --text-dark: #1e293b;
-            --text-muted: #64748b;
             --badge-affiliate: #3b82f6;
             --badge-direct: #10b981;
         }
@@ -34,17 +33,14 @@
             direction: rtl;
         }
 
-        /* Top Notification Bar */
         .top-bar {
             background: linear-gradient(90deg, #1e1b4b, #312e81);
             color: #f8fafc;
             text-align: center;
             padding: 8px;
             font-size: 13px;
-            letter-spacing: 0.5px;
         }
 
-        /* Luxury Header */
         header {
             background-color: var(--header-bg);
             color: white;
@@ -105,11 +101,6 @@
             border-radius: 8px 0 0 8px;
             cursor: pointer;
             font-weight: 700;
-            transition: 0.2s;
-        }
-
-        .search-container button:hover {
-            background-color: var(--accent-gold-hover);
         }
 
         .nav-actions {
@@ -132,51 +123,31 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
         }
 
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.18); }
-
-        .btn-admin {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            border: none;
-        }
-
-        /* Premium Banner */
         .hero-banner {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
-            padding: 40px 20px;
+            padding: 35px 20px;
             text-align: center;
             border-bottom: 3px solid var(--accent-gold);
         }
 
         .hero-banner h1 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
-            margin-bottom: 10px;
-            color: #f8fafc;
+            margin-bottom: 8px;
         }
 
         .hero-banner p {
             color: #94a3b8;
-            font-size: 15px;
+            font-size: 14px;
         }
 
-        /* Products Display */
         .main-container {
             max-width: 1280px;
             margin: 30px auto;
             padding: 0 15px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
         }
 
         .section-title {
@@ -185,6 +156,7 @@
             color: #0f172a;
             position: relative;
             padding-right: 12px;
+            margin-bottom: 20px;
         }
 
         .section-title::before {
@@ -208,18 +180,12 @@
             background: var(--card-bg);
             border-radius: 12px;
             padding: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
             border: 1px solid #e2e8f0;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         .badge {
@@ -238,7 +204,7 @@
 
         .product-img {
             width: 100%;
-            height: 190px;
+            height: 180px;
             object-fit: contain;
             margin: 15px 0;
         }
@@ -271,7 +237,6 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: 0.2s;
         }
 
         .btn-affiliate-action {
@@ -279,20 +244,11 @@
             color: #0f172a;
         }
 
-        .btn-affiliate-action:hover {
-            background-color: var(--accent-gold-hover);
-        }
-
         .btn-direct-action {
-            background-color: #0f172a;
+            background-color: #25d366;
             color: white;
         }
 
-        .btn-direct-action:hover {
-            background-color: #334155;
-        }
-
-        /* Footer */
         footer {
             background-color: #0f172a;
             color: #94a3b8;
@@ -316,20 +272,9 @@
             margin-bottom: 12px;
         }
 
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 8px;
-        }
-
-        .footer-col a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col a { color: #94a3b8; text-decoration: none; font-size: 13px; }
         .footer-col a:hover { color: var(--accent-gold); }
 
         .footer-bottom {
@@ -337,17 +282,26 @@
             font-size: 12px;
             padding-top: 20px;
             border-top: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .admin-link {
+            color: #475569;
+            text-decoration: none;
+            font-size: 11px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Notice -->
     <div class="top-bar">
         ✨ مرحباً بكم في إيموشا شوبينج | وجهتك الأولى للمنتجات العالمية والعروض الحصرية
     </div>
 
-    <!-- Header -->
     <header>
         <a href="index.html" class="logo-container">
             <span class="logo-text">Emosha Shopping</span>
@@ -360,21 +314,16 @@
 
         <div class="nav-actions">
             <a href="about.html" class="nav-btn">من نحن والاتصال</a>
-            <a href="admin.html" class="nav-btn btn-admin">لوحة الإدارة 🔐</a>
         </div>
     </header>
 
-    <!-- Banner -->
     <section class="hero-banner">
         <h1>متجر إيموشا الشامل للمنتجات والعروض</h1>
         <p>تصفح أفضل منتجات الأفلييت العالمية إلى جانب منتجاتنا الحصرية المباشرة</p>
     </section>
 
-    <!-- Content -->
     <div class="main-container">
-        <div class="section-header">
-            <h2 class="section-title">جميع المنتجات والعروض</h2>
-        </div>
+        <h2 class="section-title">جميع المنتجات والعروض</h2>
 
         <div class="products-grid">
 
@@ -387,19 +336,18 @@
                 <a href="https://amazon.eg" target="_blank" class="btn-action btn-affiliate-action">الشراء من أمازون 🔗</a>
             </div>
 
-            <!-- منتج مباشر خاص بك -->
+            <!-- منتج مباشر حصري -->
             <div class="product-card">
                 <span class="badge badge-direct">منتج خاص</span>
                 <img src="https://via.placeholder.com/200" alt="منتج خاص" class="product-img">
                 <h3 class="product-title">منتج خاص حصري من إيموشا ماركت</h3>
                 <div class="product-price">850 ج.م</div>
-                <button class="btn-action btn-direct-action" onclick="alert('اتصل بنا للطلب المباشر: 01010202865')">طلب مباشر 🛒</button>
+                <a href="https://wa.me/201010202865?text=أرغب%20في%20طلب%20منتج%20خاص%20حصري%20من%20إيموشا%20ماركت" target="_blank" class="btn-action btn-direct-action">طلب مباشر عبر واتساب 💬</a>
             </div>
 
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
@@ -407,7 +355,7 @@
                 <p style="font-size:13px; line-height:1.6;">إيموشا شوبينج منصة تسوق تجمع أفضل المنتجات من شبكات الأفلييت العالمية والمنتجات المباشرة.</p>
             </div>
             <div class="footer-col">
-                <h3>روابط هامة (AdSense)</h3>
+                <h3>روابط هامة</h3>
                 <ul>
                     <li><a href="about.html">من نحن واتصل بنا</a></li>
                     <li><a href="privacy.html">سياسة الخصوصية</a></li>
@@ -421,7 +369,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 جميع الحقوق محفوظة لـ Emosha Shopping
+            <span>&copy; 2026 جميع الحقوق محفوظة لـ Emosha Shopping</span>
+            <a href="admin.html" class="admin-link">لوحة الإدارة 🔐</a>
         </div>
     </footer>
 
