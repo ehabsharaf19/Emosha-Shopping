@@ -66,7 +66,6 @@
         .btn-direct-action { background-color: #25d366; color: white; }
         .btn-add-cart { background-color: #0f172a; color: white; }
 
-        /* Modals */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; overflow-y: auto; padding: 20px 0; }
         .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
         .close-btn { position: absolute; left: 15px; top: 15px; font-size: 20px; cursor: pointer; font-weight: bold; color: #64748b; }
@@ -82,7 +81,6 @@
         .user-profile-card { text-align: right; }
         .plan-box { background: #f8fafc; border: 2px dashed #8b5cf6; padding: 12px; border-radius: 8px; margin: 12px 0; text-align: center; }
 
-        /* Payment Modal Specifics */
         .copy-box { display: flex; justify-content: space-between; align-items: center; background-color: #F9FAFB; border: 1px solid #E5E7EB; padding: 12px 16px; border-radius: 10px; margin-bottom: 12px; }
         .target-text { font-weight: 700; font-size: 15px; color: #111827; direction: ltr; }
         .copy-btn { background-color: #2563EB; color: #ffffff; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
@@ -103,7 +101,7 @@
 
     <div class="top-bar">
         <span>✨ مرحباً بكم في إيموشا شوبينج | سوق التسوق الشامل</span>
-        <button id="pwaInstallBtn" class="install-btn" onclick="installApp()">تنزيل التطبيق 📲</button>
+        <button id="pwaInstallBtn" class="install-btn" style="display:none;" onclick="installApp()">تنزيل التطبيق 📲</button>
     </div>
 
     <header>
@@ -128,7 +126,7 @@
     <div class="main-container">
         <h2 class="section-title">جميع المنتجات والعروض</h2>
         <div class="products-grid" id="mainProductGrid">
-            <!-- المنتجات -->
+            <!-- المنتجات المعتمده فقط -->
         </div>
     </div>
 
@@ -190,11 +188,10 @@
                     <p id="profileType" style="font-size:13px; font-weight:bold; color:#8b5cf6; margin-top:2px;"></p>
                 </div>
 
-                <!-- خيارات الاشتراكات ونشر المنتجات للبائع -->
                 <div id="sellerSection" style="display:none; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
                     <div class="plan-box">
                         <h4 style="color:#8b5cf6; font-size:14px; margin-bottom:4px;">اشتراك باقة البائعين الشهري 🏪</h4>
-                        <p style="font-size:12px; color:#475569; margin-bottom:8px;">قم بالدفع لتفعيل اشتراكك ونشر منتجاتك بدون حدود.</p>
+                        <p style="font-size:12px; color:#475569; margin-bottom:8px;">ادفع الاشتراك ليتم تفعيل منتجاتك ونشرها للعملاء.</p>
                         <button class="btn-action btn-affiliate-action" onclick="openPaymentModal('instapay')">⚡ دفع الاشتراك بـ InstaPay</button>
                         <button class="btn-action btn-direct-action" onclick="openPaymentModal('vodafone')">📱 دفع الاشتراك بـ فودافون كاش</button>
                     </div>
@@ -203,10 +200,9 @@
                     <input type="text" id="sellerPTitle" placeholder="عنوان المنتج" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
                     <input type="text" id="sellerPPrice" placeholder="السعر (ج.م)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
                     <input type="text" id="sellerPImg" placeholder="رابط صورة المنتج (URL)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">نشر سلعتك فوراً 🚀</button>
+                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">إرسال للمراجعة والنشر 🚀</button>
                 </div>
 
-                <!-- واجهة سلة التسوق للمشتري -->
                 <div id="buyerCartView" style="display:none; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
                     <h4 style="color:#0f172a; font-size:14px; margin-bottom:6px;">محتويات سلة التسوق 🛒</h4>
                     <div id="cartModalList" style="max-height:150px; overflow-y:auto; border:1px solid #ccc; border-radius:6px; padding:6px; margin-bottom:10px;"></div>
@@ -218,13 +214,13 @@
         </div>
     </div>
 
-    <!-- Modal الدفع المباشر -->
+    <!-- Modal الدفع -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closePaymentModal()">&times;</span>
             <div id="paymentContent">
                 <h3 id="payModalTitle" style="margin-bottom:6px; color:#0f172a; text-align:center;">الدفع بواسطة...</h3>
-                <p style="font-size:13px; color:#64748b; text-align:center; margin-bottom:12px;">يرجى تحويل المبلغ المطلوبة إلى العنوان/الرقم التالي:</p>
+                <p style="font-size:13px; color:#64748b; text-align:center; margin-bottom:12px;">يرجى تحويل المبلغ المطلوب إلى العنوان/الرقم التالي:</p>
 
                 <div class="copy-box">
                     <span class="target-text" id="targetAccount">ehabsharaf28@instapay</span>
@@ -281,23 +277,21 @@
     </footer>
 
     <script>
-        // PWA Setup
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed', err));
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed', err));
         }
 
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
+            document.getElementById('pwaInstallBtn').style.display = 'inline-block';
         });
 
         function installApp() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
-            } else {
-                alert('لتثبيت التطبيق: اضغط خيارات المتصفح (⋮) ثم اختر "إضافة إلى الشاشة الرئيسية"');
             }
         }
 
@@ -514,18 +508,18 @@
 
             if(!title || !price) { alert('برجاء ادخال اسم المنتج والسعر'); return; }
 
-            const newProduct = { id: Date.now(), title, price, img, type: 'seller', sellerEmail: currentUser };
+            // حفظ المنتج بوضع "pending" ينتظر موافقة الأدمن
+            const newProduct = { id: Date.now(), title, price, img, type: 'seller', sellerEmail: currentUser, status: 'pending' };
 
             let products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
             products.push(newProduct);
             localStorage.setItem('emosha_products', JSON.stringify(products));
 
-            alert('تم نشر منتجك بنجاح في المتجر!');
+            alert('تم إرسال طلب نشر منتجك بنجاح! سيتم المراجعة من الأدمن والنشر فور تأكيد الاشتراك.');
             document.getElementById('sellerPTitle').value = '';
             document.getElementById('sellerPPrice').value = '';
             document.getElementById('sellerPImg').value = '';
             closeAuthModal();
-            renderMainProducts();
         }
 
         function logoutUser() {
@@ -540,12 +534,15 @@
             const grid = document.getElementById('mainProductGrid');
             grid.innerHTML = '';
 
-            if (products.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. استخدم لوحة الإدارة أو حساب بائع لإضافة منتجاتك الأولى!</div>';
+            // تصفية المنتجات بحيث تظهر المنتجات المعتمدة أو منتجات الأدمن والأفلييت فقط
+            const approvedProducts = products.filter(p => p.status === 'approved' || p.type === 'affiliate' || p.type === 'direct' || !p.status);
+
+            if (approvedProducts.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. استخدم لوحة الإدارة لإضافة منتجاتك الأولى!</div>';
                 return;
             }
 
-            products.forEach(p => {
+            approvedProducts.forEach(p => {
                 const imgUrl = p.img && p.img.trim() !== '' ? p.img : 'https://via.placeholder.com/200';
                 if (p.type === 'affiliate') {
                     grid.innerHTML += `
