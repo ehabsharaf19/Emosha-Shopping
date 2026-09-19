@@ -81,6 +81,8 @@
 
         .user-profile-card { text-align: right; }
         .plan-box { background: #f8fafc; border: 2px dashed #8b5cf6; padding: 12px; border-radius: 8px; margin: 12px 0; text-align: center; }
+        .payment-methods { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; text-align: right; }
+        .payment-card { background: #e0e7ff; border: 1px solid #6366f1; padding: 10px; border-radius: 6px; font-size: 12px; }
 
         .cart-list { max-height: 180px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px; margin: 10px 0; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 6px; border-bottom: 1px dashed #e2e8f0; font-size: 13px; }
@@ -134,7 +136,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             
-            <!-- 1. نموذج الدخول والتسجيل -->
             <div id="authForms">
                 <h3 id="modalTitle" style="margin-bottom:15px; color:#0f172a; text-align:center;">تسجيل الدخول</h3>
                 
@@ -180,7 +181,7 @@
                 <div class="auth-toggle" id="authToggle" onclick="switchAuthMode()">ليس لديك حساب؟ أنشئ حساباً جديداً</div>
             </div>
 
-            <!-- 2. لوحة حساب المستخدم (بائع / مشتري) -->
+            <!-- Profile & Vendor Dashboard -->
             <div id="userInfo" style="display:none;" class="user-profile-card">
                 <div style="text-align:center; margin-bottom:10px;">
                     <h3 id="profileName" style="color:#0f172a;"></h3>
@@ -188,12 +189,23 @@
                     <p id="profileType" style="font-size:13px; font-weight:bold; color:#8b5cf6; margin-top:2px;"></p>
                 </div>
 
-                <!-- واجهة البائعين -->
+                <!-- خيارات الاشتراكات ونشر المنتجات -->
                 <div id="sellerSection" style="display:none; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
                     <div class="plan-box">
                         <h4 style="color:#8b5cf6; font-size:14px; margin-bottom:4px;">اشتراك باقة البائعين الشهري 🏪</h4>
-                        <p style="font-size:12px; color:#475569;">احصل على شارة بائع معتمد وانشر منتجاتك بدون حدود.</p>
-                        <button class="btn-action btn-direct-action" style="margin-top:8px;" onclick="window.open('https://wa.me/201010202865?text=أرغب%20في%20تفعيل%20اشتراك%20البائعين%20الشهري', '_blank')">تفعيل الاشتراك المباشر 💳</button>
+                        <p style="font-size:12px; color:#475569;">طرق الدفع المباشرة للاشتراك الشهري:</p>
+                        
+                        <div class="payment-methods">
+                            <div class="payment-card">
+                                <b>📱 فودافون كاش:</b> قم بالتحويل إلى الرقم <code>01010202865</code>
+                            </div>
+                            <div class="payment-card">
+                                <b>💳 حساب باي بال (PayPal):</b> 
+                                <a href="https://paypal.me/ehabsharaf" target="_blank" style="color:#2563eb; font-weight:bold;">اضغط هنا للدفع عبر PayPal</a>
+                            </div>
+                        </div>
+
+                        <button class="btn-action btn-direct-action" style="margin-top:10px;" onclick="window.open('https://wa.me/201010202865?text=تم%20التحويل%20لتفعيل%20اشتراك%20البائعين', '_blank')">تأكيد إرسال إيصال التحويل 💬</button>
                     </div>
 
                     <h4 style="color:#0f172a; font-size:14px; margin-bottom:8px;">إضافة منتج جديد لمتجرك 🛍️</h4>
@@ -242,23 +254,18 @@
     </footer>
 
     <script>
-        // PWA Setup
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed', err));
-        }
-
+        // PWA Native Installer Setup
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
+            document.getElementById('pwaInstallBtn').style.display = 'inline-block';
         });
 
         function installApp() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
-            } else {
-                alert('لتثبيت التطبيق: اضغط خيارات المتصفح (⋮) ثم اختر "إضافة إلى الشاشة الرئيسية"');
             }
         }
 
