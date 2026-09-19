@@ -7,27 +7,45 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
         body { background: #0f172a; color: white; padding: 20px; direction: rtl; }
-        .login-box, .admin-panel { max-width: 600px; margin: 40px auto; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .login-box, .admin-panel { max-width: 700px; margin: 30px auto; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         h2 { margin-bottom: 15px; color: #f59e0b; }
-        input, select, textarea, button { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; }
+        input, select, button { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; }
         button { background: #f59e0b; color: #0f172a; font-weight: bold; border: none; cursor: pointer; }
         button:hover { background: #d97706; }
         .hidden { display: none; }
+        .user-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        .user-table th, .user-table td { border: 1px solid #334155; padding: 8px; text-align: right; }
+        .user-table th { background: #0f172a; color: #f59e0b; }
         .product-item { background: #334155; padding: 10px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-delete { background: #ef4444; width: auto; padding: 6px 12px; font-size: 12px; }
+        .btn-delete { background: #ef4444; width: auto; padding: 6px 12px; font-size: 12px; color: white; }
     </style>
 </head>
 <body>
 
-    <!-- Login Area -->
     <div id="loginArea" class="login-box">
         <h2>تسجيل دخول الإدارة 🔐</h2>
         <input type="password" id="passInput" placeholder="أدخل رمز الدخول الخاص بك">
         <button onclick="login()">دخول</button>
     </div>
 
-    <!-- Admin Panel -->
     <div id="adminPanel" class="admin-panel hidden">
+        <h2>سجل العملاء والمستخدمين المسجلين 👥</h2>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>البريد الإلكتروني</th>
+                    <th>الهاتف</th>
+                    <th>التاريخ</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- بيانات المستخدمين -->
+            </tbody>
+        </table>
+
+        <hr style="border-color:#334155; margin: 25px 0;">
+
         <h2>إضافة منتج جديد للمتجر 📦</h2>
         <label>عنوان المنتج:</label>
         <input type="text" id="pTitle" placeholder="مثال: ساعة ذكية مضادة للماء">
@@ -51,12 +69,12 @@
 
         <button onclick="addProduct()">نشر المنتج فوراً 🚀</button>
 
-        <hr style="border-color:#334155; margin: 20px 0;">
+        <hr style="border-color:#334155; margin: 25px 0;">
 
         <h2>المنتجات المنشورة حالياً</h2>
         <div id="productList"></div>
 
-        <button onclick="logout()" style="background:#475569; margin-top:15px;">تسجيل الخروج</button>
+        <button onclick="logout()" style="background:#475569; margin-top:20px;">تسجيل الخروج</button>
     </div>
 
     <script>
@@ -67,6 +85,7 @@
             if (val === SECRET_PASS) {
                 document.getElementById('loginArea').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
+                loadUsers();
                 loadProducts();
             } else {
                 alert('رمز الدخول غير صحيح!');
@@ -77,6 +96,29 @@
             document.getElementById('adminPanel').classList.add('hidden');
             document.getElementById('loginArea').classList.remove('hidden');
             document.getElementById('passInput').value = '';
+        }
+
+        function loadUsers() {
+            const allUsers = JSON.parse(localStorage.getItem('emosha_all_users') || '[]');
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+
+            if(allUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#aaa;">لا يوجد مستخدمون مسجلون حتى الآن.</td></tr>';
+                return;
+            }
+
+            allUsers.forEach(email => {
+                const uData = JSON.parse(localStorage.getItem('emosha_userData_' + email) || '{}');
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${(uData.firstName || '') + ' ' + (uData.lastName || '')}</td>
+                        <td>${email}</td>
+                        <td>${uData.phone || 'غير محدد'}</td>
+                        <td>${uData.regDate || '-'}</td>
+                    </tr>
+                `;
+            });
         }
 
         function toggleType() {
