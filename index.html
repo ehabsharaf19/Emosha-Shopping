@@ -27,7 +27,7 @@
         header { background-color: var(--header-bg); color: white; padding: 15px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .logo-text { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
 
-        .search-container { display: flex; flex-grow: 1; max-width: 500px; order: 3; width: 100%; }
+        .search-container { display: flex; flex-grow: 1; max-width: 600px; order: 3; width: 100%; }
         @media (min-width: 768px) { .search-container { order: 2; width: auto; } }
 
         .search-container input { width: 100%; padding: 11px 16px; border: none; border-radius: 0 8px 8px 0; font-size: 14px; background: #f8fafc; outline: none; }
@@ -36,8 +36,8 @@
         .nav-actions { display: flex; align-items: center; gap: 10px; order: 2; }
         @media (min-width: 768px) { .nav-actions { order: 3; } }
 
-        .nav-btn { background: rgba(255, 255, 255, 0.08); color: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; }
-        .nav-btn-user { background: var(--accent-gold); color: #0f172a; font-weight: 700; }
+        .nav-btn-user { background: var(--accent-gold); color: #0f172a; font-weight: 700; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .user-avatar-mini { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
 
         .hero-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 35px 20px; text-align: center; border-bottom: 3px solid var(--accent-gold); }
         .hero-banner h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
@@ -62,14 +62,23 @@
         .btn-affiliate-action { background-color: var(--accent-gold); color: #0f172a; }
         .btn-direct-action { background-color: #25d366; color: white; }
 
-        /* Auth Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        /* Advanced Auth Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; overflow-y: auto; padding: 20px 0; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
         .close-btn { position: absolute; left: 15px; top: 15px; font-size: 20px; cursor: pointer; font-weight: bold; color: #64748b; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
-        .auth-toggle { font-size: 12px; color: #2563eb; cursor: pointer; text-align: center; margin-top: 10px; }
+        
+        .form-row { display: flex; gap: 10px; }
+        .form-row .form-group { flex: 1; }
+
+        .form-group { margin-bottom: 12px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; color: #334155; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; }
+        .form-group input:focus { border-color: var(--accent-gold); }
+
+        .auth-toggle { font-size: 13px; color: #2563eb; cursor: pointer; text-align: center; margin-top: 12px; font-weight: 600; }
+
+        .user-profile-card { text-align: center; padding: 10px 0; }
+        .user-profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-gold); margin-bottom: 10px; }
 
         footer { background-color: #0f172a; color: #94a3b8; padding: 40px 20px 20px 20px; margin-top: 60px; }
         .footer-content { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
@@ -94,8 +103,9 @@
             <button>بحث</button>
         </div>
         <div class="nav-actions">
-            <a href="about.html" class="nav-btn">من نحن والاتصال</a>
-            <button class="nav-btn nav-btn-user" id="userBtn" onclick="toggleAuthModal()">تسجيل الدخول 👤</button>
+            <button class="nav-btn-user" id="userBtn" onclick="toggleAuthModal()">
+                <span id="userBtnText">تسجيل الدخول</span> 👤
+            </button>
         </div>
     </header>
 
@@ -107,17 +117,42 @@
     <div class="main-container">
         <h2 class="section-title">جميع المنتجات والعروض</h2>
         <div class="products-grid" id="mainProductGrid">
-            <!-- سيتم تحميل المنتجات المنشورة تلقائياً -->
+            <!-- تحميل المنتجات المنشورة -->
         </div>
     </div>
 
-    <!-- Auth Modal for Customers -->
+    <!-- Auth Modal -->
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="toggleAuthModal()">&times;</span>
+            
+            <!-- Auth Forms -->
             <div id="authForms">
-                <h3 id="modalTitle" style="margin-bottom:15px; color:#0f172a;">تسجيل الدخول</h3>
+                <h3 id="modalTitle" style="margin-bottom:15px; color:#0f172a; text-align:center;">تسجيل الدخول</h3>
                 
+                <!-- Fields for Sign Up Mode -->
+                <div id="signupExtraFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>الاسم الأول</label>
+                            <input type="text" id="regFirstName" placeholder="إيهاب">
+                        </div>
+                        <div class="form-group">
+                            <label>اللقب (الاسم الأخير)</label>
+                            <input type="text" id="regLastName" placeholder="شرف">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف</label>
+                        <input type="tel" id="regPhone" placeholder="01010202865">
+                    </div>
+                    <div class="form-group">
+                        <label>رابط الصورة الشخصية (اختياري)</label>
+                        <input type="text" id="regAvatar" placeholder="https://...">
+                    </div>
+                </div>
+
+                <!-- Common Fields -->
                 <div class="form-group">
                     <label>البريد الإلكتروني</label>
                     <input type="email" id="userEmail" placeholder="example@gmail.com">
@@ -126,13 +161,22 @@
                     <label>كلمة المرور</label>
                     <input type="password" id="userPass" placeholder="******">
                 </div>
+
+                <div class="form-group" id="confirmPassField" style="display:none;">
+                    <label>تأكيد كلمة المرور</label>
+                    <input type="password" id="userConfirmPass" placeholder="******">
+                </div>
                 
                 <button class="btn-action btn-affiliate-action" id="authSubmitBtn" onclick="handleAuth()">دخول</button>
                 <div class="auth-toggle" id="authToggle" onclick="switchAuthMode()">ليس لديك حساب؟ أنشئ حساباً جديداً</div>
             </div>
-            <div id="userInfo" style="display:none; text-align:center;">
-                <h3 style="color:#10b981; margin-bottom:10px;">مرحباً بك! 👋</h3>
-                <p id="loggedInEmail" style="font-size:14px; margin-bottom:15px; color:#475569;"></p>
+
+            <!-- Profile Info View -->
+            <div id="userInfo" style="display:none;" class="user-profile-card">
+                <img id="profileAvatar" src="" class="user-profile-img" alt="صورة المستخدم">
+                <h3 id="profileName" style="color:#0f172a; margin-bottom:4px;"></h3>
+                <p id="profileEmail" style="font-size:13px; color:#64748b; margin-bottom:4px;"></p>
+                <p id="profilePhone" style="font-size:13px; color:#64748b; margin-bottom:15px;"></p>
                 <button class="btn-action" style="background:#ef4444; color:white;" onclick="logoutUser()">تسجيل الخروج</button>
             </div>
         </div>
@@ -165,28 +209,36 @@
     </footer>
 
     <script>
-        // Customer Auth Logic
         let isSignUpMode = false;
 
         function checkUserLogin() {
-            const currentUser = localStorage.getItem('emosha_current_user');
+            const currentUserEmail = localStorage.getItem('emosha_current_user');
             const userBtn = document.getElementById('userBtn');
-            if (currentUser) {
-                userBtn.innerText = 'حسابي 👤';
+            if (currentUserEmail) {
+                const userData = JSON.parse(localStorage.getItem('emosha_userData_' + currentUserEmail) || '{}');
+                const displayName = userData.firstName ? (userData.firstName + ' ' + userData.lastName) : currentUserEmail;
+                const avatar = userData.avatar || 'https://via.placeholder.com/50';
+                
+                userBtn.innerHTML = `<img src="${avatar}" class="user-avatar-mini"> <span>${displayName}</span>`;
             } else {
-                userBtn.innerText = 'تسجيل الدخول 👤';
+                userBtn.innerHTML = `<span>تسجيل الدخول</span> 👤`;
             }
         }
 
         function toggleAuthModal() {
             const modal = document.getElementById('authModal');
-            const currentUser = localStorage.getItem('emosha_current_user');
+            const currentUserEmail = localStorage.getItem('emosha_current_user');
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
 
-            if (currentUser) {
+            if (currentUserEmail) {
+                const userData = JSON.parse(localStorage.getItem('emosha_userData_' + currentUserEmail) || '{}');
                 document.getElementById('authForms').style.display = 'none';
                 document.getElementById('userInfo').style.display = 'block';
-                document.getElementById('loggedInEmail').innerText = currentUser;
+                
+                document.getElementById('profileName').innerText = (userData.firstName || '') + ' ' + (userData.lastName || '');
+                document.getElementById('profileEmail').innerText = currentUserEmail;
+                document.getElementById('profilePhone').innerText = '📞 ' + (userData.phone || 'غير محدد');
+                document.getElementById('profileAvatar').src = userData.avatar || 'https://via.placeholder.com/80';
             } else {
                 document.getElementById('authForms').style.display = 'block';
                 document.getElementById('userInfo').style.display = 'none';
@@ -197,26 +249,38 @@
             isSignUpMode = !isSignUpMode;
             document.getElementById('modalTitle').innerText = isSignUpMode ? 'إنشاء حساب جديد' : 'تسجيل الدخول';
             document.getElementById('authSubmitBtn').innerText = isSignUpMode ? 'إنشاء حساب' : 'دخول';
+            document.getElementById('signupExtraFields').style.display = isSignUpMode ? 'block' : 'none';
+            document.getElementById('confirmPassField').style.display = isSignUpMode ? 'block' : 'none';
             document.getElementById('authToggle').innerText = isSignUpMode ? 'لديك حساب بالفعل؟ سجل دخولك' : 'ليس لديك حساب؟ أنشئ حساباً جديداً';
         }
 
         function handleAuth() {
-            const email = document.getElementById('userEmail').value;
+            const email = document.getElementById('userEmail').value.trim();
             const pass = document.getElementById('userPass').value;
 
-            if (!email || !pass) { alert('برجاء كتابة البريد وكلمة المرور'); return; }
+            if (!email || !pass) { alert('برجاء كتابة البريد الإلكتروني وكلمة المرور'); return; }
 
             if (isSignUpMode) {
-                localStorage.setItem('emosha_user_' + email, pass);
+                const firstName = document.getElementById('regFirstName').value.trim();
+                const lastName = document.getElementById('regLastName').value.trim();
+                const phone = document.getElementById('regPhone').value.trim();
+                const avatar = document.getElementById('regAvatar').value.trim() || 'https://via.placeholder.com/80';
+                const confirmPass = document.getElementById('userConfirmPass').value;
+
+                if (!firstName || !lastName) { alert('برجاء ادخال الاسم الأول واللقب'); return; }
+                if (pass !== confirmPass) { alert('كلمتا المرور غير متطابقتين!'); return; }
+
+                const userData = { firstName, lastName, phone, avatar, pass };
+                localStorage.setItem('emosha_userData_' + email, JSON.stringify(userData));
                 localStorage.setItem('emosha_current_user', email);
-                alert('تم إنشاء الحساب بنجاح!');
+                alert('تم إنشاء الحساب بنجاح! مرحباً بك يا ' + firstName);
             } else {
-                const storedPass = localStorage.getItem('emosha_user_' + email);
-                if (storedPass === pass) {
+                const storedData = JSON.parse(localStorage.getItem('emosha_userData_' + email) || 'null');
+                if (storedData && storedData.pass === pass) {
                     localStorage.setItem('emosha_current_user', email);
                     alert('تم تسجيل الدخول بنجاح!');
                 } else {
-                    alert('بيانات الدخول غير صحيحة!');
+                    alert('البريد الإلكتروني أو كلمة المرور غير صحيحة!');
                     return;
                 }
             }
@@ -226,12 +290,11 @@
 
         function logoutUser() {
             localStorage.removeItem('emosha_current_user');
-            alert('تم تسجيل الخروج');
+            alert('تم تسجيل الخروج بنجاح');
             toggleAuthModal();
             checkUserLogin();
         }
 
-        // Render Products
         function renderMainProducts() {
             const products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
             const grid = document.getElementById('mainProductGrid');
