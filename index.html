@@ -23,7 +23,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body { background-color: #f1f5f9; color: var(--text-dark); direction: rtl; }
 
-        .top-bar { background: linear-gradient(90deg, #1e1b4b, #312e81); color: #f8fafc; text-align: center; padding: 8px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; padding: 6px 15px; }
+        .top-bar { background: linear-gradient(90deg, #1e1b4b, #312e81); color: #f8fafc; padding: 8px 15px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
 
         header { background-color: var(--header-bg); color: white; padding: 15px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .logo-text { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
@@ -39,7 +39,7 @@
 
         .nav-btn-user { background: var(--accent-gold); color: #0f172a; font-weight: 700; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; }
         .cart-btn-head { background: #3b82f6; color: white; font-weight: 700; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 13px; }
-        .install-btn { background: #10b981; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .install-btn { background: #10b981; color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
         .hero-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 35px 20px; text-align: center; border-bottom: 3px solid var(--accent-gold); }
         .hero-banner h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
@@ -67,7 +67,7 @@
         .btn-add-cart { background-color: #0f172a; color: white; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; overflow-y: auto; padding: 20px 0; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 480px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
         .close-btn { position: absolute; left: 15px; top: 15px; font-size: 20px; cursor: pointer; font-weight: bold; color: #64748b; }
         
         .form-row { display: flex; gap: 10px; }
@@ -79,8 +79,8 @@
 
         .auth-toggle { font-size: 13px; color: #2563eb; cursor: pointer; text-align: center; margin-top: 12px; font-weight: 600; }
 
-        .user-profile-card { text-align: center; padding: 10px 0; }
-        .user-profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-gold); margin-bottom: 10px; }
+        .user-profile-card { text-align: right; }
+        .plan-box { background: #f8fafc; border: 2px dashed #8b5cf6; padding: 12px; border-radius: 8px; margin: 12px 0; text-align: center; }
 
         footer { background-color: #0f172a; color: #94a3b8; padding: 40px 20px 20px 20px; margin-top: 60px; }
         .footer-content { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
@@ -153,7 +153,7 @@
                         <label>نوع الحساب</label>
                         <select id="regUserType">
                             <option value="buyer">مشتري فقط</option>
-                            <option value="seller">بائع / صاحب مشروع (نشر منتجات)</option>
+                            <option value="seller">بائع / صاحب مشروع (اشتراك ونشر منتجات)</option>
                         </select>
                     </div>
                 </div>
@@ -178,18 +178,25 @@
 
             <!-- Profile & Vendor Dashboard -->
             <div id="userInfo" style="display:none;" class="user-profile-card">
-                <img id="profileAvatar" src="https://via.placeholder.com/80" class="user-profile-img" alt="صورة المستخدم">
-                <h3 id="profileName" style="color:#0f172a; margin-bottom:2px;"></h3>
-                <p id="profileEmail" style="font-size:12px; color:#64748b;"></p>
-                <p id="profileType" style="font-size:12px; font-weight:bold; color:#8b5cf6; margin-bottom:12px;"></p>
-                
-                <!-- قسم إضافة منتج للبائعين -->
-                <div id="sellerSection" style="display:none; border-top:1px solid #e2e8f0; padding-top:10px; margin-top:10px; text-align:right;">
-                    <h4 style="color:#0f172a; font-size:14px; margin-bottom:8px;">إضافة منتجك للبيع في المتجر 🛍️</h4>
-                    <input type="text" id="sellerPTitle" placeholder="اسم المنتج" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+                <div style="text-align:center; margin-bottom:10px;">
+                    <h3 id="profileName" style="color:#0f172a;"></h3>
+                    <p id="profileEmail" style="font-size:12px; color:#64748b;"></p>
+                    <p id="profileType" style="font-size:12px; font-weight:bold; color:#8b5cf6; margin-top:2px;"></p>
+                </div>
+
+                <!-- خيارات الاشتراكات ونشر المنتجات -->
+                <div id="sellerSection" style="display:none; border-top:1px solid #e2e8f0; padding-top:12px; margin-top:10px;">
+                    <div class="plan-box">
+                        <h4 style="color:#8b5cf6; font-size:14px; margin-bottom:4px;">اشتراك باقة البائعين 🏪</h4>
+                        <p style="font-size:12px; color:#475569;">اشتراك شهري ينتهي بالتجديد لعرض جميع منتجاتك للعملاء مباشرة.</p>
+                        <button class="btn-action btn-direct-action" style="margin-top:8px;" onclick="alert('لتفعيل الاشتراك الشهري للبائعين، يرجى التواصل مع الإدارة عبر الواتساب: 01010202865')">تفعيل الاشتراك المباشر 💳</button>
+                    </div>
+
+                    <h4 style="color:#0f172a; font-size:14px; margin-bottom:8px;">إضافة منتج جديد لمتجرك 🛍️</h4>
+                    <input type="text" id="sellerPTitle" placeholder="عنوان المنتح" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
                     <input type="text" id="sellerPPrice" placeholder="السعر (ج.م)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-                    <input type="text" id="sellerPImg" placeholder="رابط صورة المنتج" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
-                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">نشر منتجي في المتجر 🚀</button>
+                    <input type="text" id="sellerPImg" placeholder="رابط صورة المنتج (URL)" style="width:100%; padding:8px; margin-bottom:6px; border:1px solid #ccc; border-radius:4px;">
+                    <button class="btn-action btn-affiliate-action" onclick="addSellerProduct()">نشر سعلتك فوراً 🚀</button>
                 </div>
 
                 <button class="btn-action" style="background:#ef4444; color:white; margin-top:15px;" onclick="logoutUser()">تسجيل الخروج</button>
@@ -224,7 +231,7 @@
     </footer>
 
     <script>
-        // PWA Installation Registration
+        // PWA Setup
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed', err));
         }
@@ -233,7 +240,6 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('pwaInstallBtn').style.display = 'inline-block';
         });
 
         function installApp() {
@@ -241,7 +247,7 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
             } else {
-                alert('لتثبيت التطبيق على الموبايل: اضغط على خيارات المتصفح (⋮) ثم اختر "الإضافة إلى الشاشة الرئيسية"');
+                alert('لتثبيت التطبيق على هاتف الأندرويد: اضغط على القائمة (⋮) ثم اختر "الإضافة إلى الشاشة الرئيسية"');
             }
         }
 
@@ -271,7 +277,7 @@
                 
                 document.getElementById('profileName').innerText = (userData.firstName || '') + ' ' + (userData.lastName || '');
                 document.getElementById('profileEmail').innerText = currentUserEmail;
-                document.getElementById('profileType').innerText = userData.userType === 'seller' ? 'حساب بائع معتمد 🏪' : 'حساب مشتري 🛒';
+                document.getElementById('profileType').innerText = userData.userType === 'seller' ? 'حساب بائع / صاحب مشروع 🏪' : 'حساب مشتري 🛒';
 
                 if(userData.userType === 'seller') {
                     document.getElementById('sellerSection').style.display = 'block';
@@ -315,7 +321,7 @@
                 let allUsers = JSON.parse(localStorage.getItem('emosha_all_users') || '[]');
                 if(!allUsers.includes(email)) { allUsers.push(email); localStorage.setItem('emosha_all_users', JSON.stringify(allUsers)); }
 
-                alert('تم إنشاء الحساب بنجاح! سجل دخولك الآن.');
+                alert('تم تسجيل حسابك بنجاح! يرجى إدخال البريد وكلمة المرور الآن لتسجيل الدخول.');
                 switchAuthMode();
             } else {
                 const storedData = JSON.parse(localStorage.getItem('emosha_userData_' + email) || 'null');
