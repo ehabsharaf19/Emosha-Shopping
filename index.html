@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إيموشا شوبينج | Emosha Shopping</title>
-    
     <meta name="theme-color" content="#0d1117">
     <link rel="manifest" href="manifest.json">
 
@@ -20,301 +19,68 @@
             --badge-direct: #10b981;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: #f1f5f9; color: var(--text-dark); direction: rtl; }
 
-        body {
-            background-color: #f1f5f9;
-            color: var(--text-dark);
-            direction: rtl;
-        }
+        .top-bar { background: linear-gradient(90deg, #1e1b4b, #312e81); color: #f8fafc; text-align: center; padding: 8px; font-size: 13px; }
 
-        .top-bar {
-            background: linear-gradient(90deg, #1e1b4b, #312e81);
-            color: #f8fafc;
-            text-align: center;
-            padding: 8px;
-            font-size: 13px;
-        }
+        header { background-color: var(--header-bg); color: white; padding: 15px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .logo-text { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
 
-        header {
-            background-color: var(--header-bg);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
+        .search-container { display: flex; flex-grow: 1; max-width: 600px; order: 3; width: 100%; }
+        @media (min-width: 768px) { .search-container { order: 2; width: auto; } }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
+        .search-container input { width: 100%; padding: 11px 16px; border: none; border-radius: 0 8px 8px 0; font-size: 14px; background: #f8fafc; outline: none; }
+        .search-container button { background: var(--accent-gold); color: #0f172a; border: none; padding: 11px 22px; border-radius: 8px 0 0 8px; font-weight: 700; cursor: pointer; }
 
-        .logo-text {
-            font-size: 22px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .nav-btn { background: rgba(255, 255, 255, 0.08); color: #f8fafc; padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); text-decoration: none; font-size: 13px; font-weight: 600; }
 
-        .search-container {
-            display: flex;
-            flex-grow: 1;
-            max-width: 600px;
-            order: 3;
-            width: 100%;
-        }
+        .hero-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 35px 20px; text-align: center; border-bottom: 3px solid var(--accent-gold); }
+        .hero-banner h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        .hero-banner p { color: #94a3b8; font-size: 14px; }
 
-        @media (min-width: 768px) {
-            .search-container { order: 2; width: auto; }
-        }
+        .main-container { max-width: 1280px; margin: 30px auto; padding: 0 15px; }
+        .section-title { font-size: 20px; font-weight: 800; color: #0f172a; position: relative; padding-right: 12px; margin-bottom: 20px; }
+        .section-title::before { content: ''; position: absolute; right: 0; top: 2px; bottom: 2px; width: 4px; background-color: var(--accent-gold); border-radius: 2px; }
 
-        .search-container input {
-            width: 100%;
-            padding: 11px 16px;
-            border: 1px solid transparent;
-            border-radius: 0 8px 8px 0;
-            outline: none;
-            font-size: 14px;
-            background-color: #f8fafc;
-        }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .product-card { background: var(--card-bg); border-radius: 12px; padding: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e2e8f0; }
 
-        .search-container button {
-            background-color: var(--accent-gold);
-            color: #0f172a;
-            border: none;
-            padding: 11px 22px;
-            border-radius: 8px 0 0 8px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            order: 2;
-        }
-
-        @media (min-width: 768px) {
-            .nav-actions { order: 3; }
-        }
-
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.08);
-            color: #f8fafc;
-            padding: 8px 14px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .hero-banner {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 35px 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--accent-gold);
-        }
-
-        .hero-banner h1 {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .hero-banner p {
-            color: #94a3b8;
-            font-size: 14px;
-        }
-
-        .main-container {
-            max-width: 1280px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #0f172a;
-            position: relative;
-            padding-right: 12px;
-            margin-bottom: 20px;
-        }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 2px;
-            bottom: 2px;
-            width: 4px;
-            background-color: var(--accent-gold);
-            border-radius: 2px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            border: 1px solid #e2e8f0;
-        }
-
-        .badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-        }
-
+        .badge { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; color: white; }
         .badge-affiliate { background-color: var(--badge-affiliate); }
         .badge-direct { background-color: var(--badge-direct); }
 
-        .product-img {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            margin: 15px 0;
-        }
+        .product-img { width: 100%; height: 180px; object-fit: contain; margin: 15px 0; }
+        .product-title { font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-dark); height: 42px; overflow: hidden; margin-bottom: 8px; }
+        .product-price { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 14px; }
 
-        .product-title {
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 1.4;
-            color: var(--text-dark);
-            height: 42px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
+        .btn-action { display: block; width: 100%; text-align: center; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; border: none; cursor: pointer; }
+        .btn-affiliate-action { background-color: var(--accent-gold); color: #0f172a; }
+        .btn-direct-action { background-color: #25d366; color: white; }
 
-        .product-price {
-            font-size: 18px;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 14px;
-        }
-
-        .btn-action {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-affiliate-action {
-            background-color: var(--accent-gold);
-            color: #0f172a;
-        }
-
-        .btn-direct-action {
-            background-color: #25d366;
-            color: white;
-        }
-
-        footer {
-            background-color: #0f172a;
-            color: #94a3b8;
-            padding: 40px 20px 20px 20px;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .footer-col h3 {
-            color: white;
-            font-size: 16px;
-            margin-bottom: 12px;
-        }
-
+        footer { background-color: #0f172a; color: #94a3b8; padding: 40px 20px 20px 20px; margin-top: 60px; }
+        .footer-content { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
+        .footer-col h3 { color: white; font-size: 16px; margin-bottom: 12px; }
         .footer-col ul { list-style: none; }
         .footer-col ul li { margin-bottom: 8px; }
         .footer-col a { color: #94a3b8; text-decoration: none; font-size: 13px; }
         .footer-col a:hover { color: var(--accent-gold); }
 
-        .footer-bottom {
-            text-align: center;
-            font-size: 12px;
-            padding-top: 20px;
-            border-top: 1px solid #1e293b;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .admin-link {
-            color: #475569;
-            text-decoration: none;
-            font-size: 11px;
-        }
+        .footer-bottom { text-align: center; font-size: 12px; padding-top: 20px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .admin-link { color: #475569; text-decoration: none; font-size: 11px; }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        ✨ مرحباً بكم في إيموشا شوبينج | وجهتك الأولى للمنتجات العالمية والعروض الحصرية
-    </div>
+    <div class="top-bar">✨ مرحباً بكم في إيموشا شوبينج | وجهتك الأولى للمنتجات العالمية والعروض الحصرية</div>
 
     <header>
-        <a href="index.html" class="logo-container">
-            <span class="logo-text">Emosha Shopping</span>
-        </a>
-
+        <a href="index.html" class="logo-text">Emosha Shopping</a>
         <div class="search-container">
-            <input type="text" placeholder="ابحث في أكثر من 10,000 منتج ورابط أفلييت...">
+            <input type="text" placeholder="ابحث عن العروض والمنتجات...">
             <button>بحث</button>
         </div>
-
-        <div class="nav-actions">
-            <a href="about.html" class="nav-btn">من نحن والاتصال</a>
-        </div>
+        <a href="about.html" class="nav-btn">من نحن والاتصال</a>
     </header>
 
     <section class="hero-banner">
@@ -324,27 +90,8 @@
 
     <div class="main-container">
         <h2 class="section-title">جميع المنتجات والعروض</h2>
-
-        <div class="products-grid">
-
-            <!-- منتج أفلييت -->
-            <div class="product-card">
-                <span class="badge badge-affiliate">متجر شريك</span>
-                <img src="https://via.placeholder.com/200" alt="منتج" class="product-img">
-                <h3 class="product-title">ساعة ذكية مقاومة للماء شاشة AMOLED عالية الدقة</h3>
-                <div class="product-price">1,200 ج.م</div>
-                <a href="https://amazon.eg" target="_blank" class="btn-action btn-affiliate-action">الشراء من أمازون 🔗</a>
-            </div>
-
-            <!-- منتج مباشر حصري -->
-            <div class="product-card">
-                <span class="badge badge-direct">منتج خاص</span>
-                <img src="https://via.placeholder.com/200" alt="منتج خاص" class="product-img">
-                <h3 class="product-title">منتج خاص حصري من إيموشا ماركت</h3>
-                <div class="product-price">850 ج.م</div>
-                <a href="https://wa.me/201010202865?text=أرغب%20في%20طلب%20منتج%20خاص%20حصري%20من%20إيموشا%20ماركت" target="_blank" class="btn-action btn-direct-action">طلب مباشر عبر واتساب 💬</a>
-            </div>
-
+        <div class="products-grid" id="mainProductGrid">
+            <!-- المنتجات ستظهر هنا تلقائياً عند إضافتها من لوحة الإدارة -->
         </div>
     </div>
 
@@ -374,5 +121,43 @@
         </div>
     </footer>
 
+    <script>
+        function renderMainProducts() {
+            const products = JSON.parse(localStorage.getItem('emosha_products') || '[]');
+            const grid = document.getElementById('mainProductGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">لا توجد منتجات منشورة حالياً. استخدم لوحة الإدارة لإضافة منتجاتك الأولى!</div>';
+                return;
+            }
+
+            products.forEach(p => {
+                if (p.type === 'affiliate') {
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <span class="badge badge-affiliate">متجر شريك</span>
+                            <img src="${p.img}" alt="${p.title}" class="product-img">
+                            <h3 class="product-title">${p.title}</h3>
+                            <div class="product-price">${p.price} ج.م</div>
+                            <a href="${p.affLink}" target="_blank" class="btn-action btn-affiliate-action">الشراء من المتجر الشريك 🔗</a>
+                        </div>
+                    `;
+                } else {
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <span class="badge badge-direct">منتج خاص</span>
+                            <img src="${p.img}" alt="${p.title}" class="product-img">
+                            <h3 class="product-title">${p.title}</h3>
+                            <div class="product-price">${p.price} ج.م</div>
+                            <a href="https://wa.me/201010202865?text=أرغب%20في%20طلب%20${encodeURIComponent(p.title)}" target="_blank" class="btn-action btn-direct-action">طلب مباشر 🛒</a>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        renderMainProducts();
+    </script>
 </body>
 </html>
